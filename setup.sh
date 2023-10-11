@@ -71,6 +71,7 @@ if [ "$websites" == "yes" ]; then
     sudo apt-get install make \
          uidmap dbus-user-session fuse-overlayfs slirp4netns docker-ce-rootless-extras --yes # rootless docker
     sudo loginctl enable-linger kristoff
+    sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80
     sudo su kristoff -l -c "/usr/bin/dockerd-rootless-setuptool.sh install && \
                             systemctl --user start docker && \
                             systemctl --user enable docker && \
