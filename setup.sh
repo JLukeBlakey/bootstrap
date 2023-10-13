@@ -70,7 +70,7 @@ read -r websites
 if [ "$websites" == "yes" ]; then
     sudo apt-get install make \
          uidmap dbus-user-session fuse-overlayfs slirp4netns docker-ce-rootless-extras --yes # rootless docker
-    sudo loginctl enable-linger kristoff
+    sudo loginctl enable-linger kristoff && sleep 1 # allow proccess to be created
     sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80
     kristoff_uid=$(grep kristoff /etc/passwd | cut -d ':' -f3)
     sudo su kristoff -lc "export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$kristoff_uid/bus && \
