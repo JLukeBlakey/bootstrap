@@ -2,10 +2,10 @@
 
 set -eo pipefail
 
-#sudo apt-get update
-#sudo apt-get upgrade
-#
-#sudo apt-get install python3-pip python3-venv --yes
+sudo apt-get update
+sudo apt-get upgrade
+
+sudo apt-get install python3-pip python3-venv --yes
 
 ### install syncthing
 printf "\\nInstall syncthing?... (type yes)\\n"
