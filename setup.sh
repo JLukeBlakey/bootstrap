@@ -78,7 +78,7 @@ if [ "$websites" == "yes" ]; then
                           /usr/bin/dockerd-rootless-setuptool.sh install && \
                           systemctl --user start docker && \
                           systemctl --user enable docker && \
-                          git clone git@github.com:JLukeBlakey/webserver.git --branch feature/rootless_docker && \
+                          git clone git@github.com:JLukeBlakey/webserver.git && \
                           cd webserver && \
                           cp .versions.sample .versions && \
                           . .versions && make start"
