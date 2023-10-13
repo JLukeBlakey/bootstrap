@@ -27,8 +27,8 @@ if [ "$kristoff" == "yes" ]; then
     sudo cat /home/kristoff/.ssh/id_rsa.pub
     printf "\\n^ Add this public key to github. Press enter to continue...\\n"
     read -r key
-    sudo su kristoff -l -c "ssh-keyscan github.com > .ssh/known_hosts && \
-                            git clone git@github.com:JLukeBlakey/kristoff.git"
+    sudo su kristoff -lc "ssh-keyscan github.com > .ssh/known_hosts && \
+                          git clone git@github.com:JLukeBlakey/kristoff.git"
 fi
 
 
@@ -72,13 +72,16 @@ if [ "$websites" == "yes" ]; then
          uidmap dbus-user-session fuse-overlayfs slirp4netns docker-ce-rootless-extras --yes # rootless docker
     sudo loginctl enable-linger kristoff
     sudo sysctl -w net.ipv4.ip_unprivileged_port_start=80
-    sudo su kristoff -l -c "/usr/bin/dockerd-rootless-setuptool.sh install && \
-                            systemctl --user start docker && \
-                            systemctl --user enable docker && \
-                            git clone git@github.com:JLukeBlakey/webserver.git && \
-                            cd webserver && \
-                            cp .versions.sample .versions && \
-                            make start"
+    kristoff_uid=$(grep kristoff /etc/passwd | cut -d ':' -f3)
+    sudo su kristoff -lc "export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$kristoff_uid/bus && \
+                          export XDG_RUNTIME_DIR=/run/user/$kristoff_uid && \
+                          /usr/bin/dockerd-rootless-setuptool.sh install && \
+                          systemctl --user start docker && \
+                          systemctl --user enable docker && \
+                          git clone git@github.com:JLukeBlakey/webserver.git --branch feature/rootless_docker && \
+                          cd webserver && \
+                          cp .versions.sample .versions && \
+                          . .versions && make start"
 fi
 
 
@@ -91,6 +94,6 @@ if [ "$crypto" == "yes" ]; then
     sudo cat /home/cryptobot/.ssh/id_rsa.pub
     printf "\\n^ Add this public key to github. Press enter to continue...\\n"
     read key
-    sudo su cryptobot -l -c "ssh-keyscan github.com > .ssh/known_hosts && \
-                             git clone git@github.com:JLukeBlakey/crypto.git"
+    sudo su cryptobot -lc "ssh-keyscan github.com > .ssh/known_hosts && \
+                           git clone git@github.com:JLukeBlakey/crypto.git"
 fi
