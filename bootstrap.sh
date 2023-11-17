@@ -12,5 +12,3 @@ ssh-keygen -f /home/luke/.ssh/id_rsa -P "" -C luke@"$(hostname)"
 echo "$zenbook_debian_ssh_key" > /home/luke/.ssh/authorized_keys
 chmod 600 /home/luke/.ssh/authorized_keys
 chown -R luke: /home/luke/.ssh
-
-sudo apt-get install git --yes
